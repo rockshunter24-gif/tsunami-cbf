@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - "**"
+      - main
 
 jobs:
   build:
@@ -39,6 +39,8 @@ jobs:
     name: Package .geode
     runs-on: ubuntu-latest
     needs: ['build']
+    permissions:
+      contents: write
 
     steps:
       - uses: geode-sdk/build-geode-mod/combine@main
@@ -48,3 +50,16 @@ jobs:
         with:
           name: Tsunami CBF
           path: ${{ steps.build.outputs.build-output }}
+
+      # Also publish the .geode to the "builds" branch for a direct download link
+      - name: Publish to builds branch
+        run: |
+          mkdir publish
+          find "${{ steps.build.outputs.build-output }}" -name "*.geode" -exec cp {} publish/ \;
+          ls -la publish
+          cd publish
+          git init -q
+          git checkout -q -b builds
+          git add .
+          git -c user.name="github-actions" -c user.email="github-actions@users.noreply.github.com" commit -q -m "Build ${{ github.sha }}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}" builds
