@@ -1,0 +1,20 @@
+{
+	"geode": "5.11.2",
+	"gd": {
+		"win": "2.2081",
+		"android": "2.2081"
+	},
+	"id": "maloneocean.tsunami-cbf",
+	"name": "Tsunami CBF",
+	"version": "v1.0.0",
+	"developer": "Malone Ocean",
+	"description": "Predictive input buffer: early clicks are held and released on the first tick that survives. Adjustable from 240 TPS down to 1 TPS.",
+	"tags": ["gameplay", "utility", "cheat"],
+	"incompatibilities": {
+		"syzzi.click_between_frames": ">=1.0.0",
+		"zmx.cbf-lite": ">=1.0.0"
+	},
+	"resources": {
+		"sprites": ["resources/*.png"]
+	}
+}
